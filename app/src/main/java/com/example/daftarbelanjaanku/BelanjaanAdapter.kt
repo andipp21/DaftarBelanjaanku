@@ -147,6 +147,10 @@ class  BelanjaanAdapter(val listBelanjaan: List<Belanjaan>): RecyclerView.Adapte
 
                     Log.d("Text Change", "$p0")
                 }
+
+                val hitung = holder.hitung(listBelanjaan[position])
+
+                holder.itemView.totalBiaya.text = hitung.toString()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -173,6 +177,10 @@ class  BelanjaanAdapter(val listBelanjaan: List<Belanjaan>): RecyclerView.Adapte
 
                     Log.d("Text Change", "$p0")
                 }
+
+                val hitung = holder.hitung(listBelanjaan[position])
+
+                holder.itemView.totalBiaya.text = hitung.toString()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
