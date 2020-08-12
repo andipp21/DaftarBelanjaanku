@@ -8,6 +8,7 @@ import com.example.daftarbelanjaanku.database.DatabaseBelanjaan
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var db: DatabaseBelanjaan
