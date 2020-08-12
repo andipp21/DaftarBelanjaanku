@@ -1,11 +1,14 @@
 package com.example.daftarbelanjaanku
 
 import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.daftarbelanjaanku.database.Belanjaan
 import com.example.daftarbelanjaanku.database.DatabaseBelanjaan
@@ -20,10 +23,17 @@ class  BelanjaanAdapter(val listBelanjaan: List<Belanjaan>): RecyclerView.Adapte
         private val cb = itemView.chekcboxBTN
         private val cardView = itemView.cardView
 
-        fun cbCheck(){
-            if (cb.isChecked){
-                cardView.setCardBackgroundColor(Color.parseColor("#000"))
+        fun cbCheck(belanjaan: Belanjaan){
+            if (belanjaan.isChecked == true){
+                cb.isChecked = true
+                cardView.setCardBackgroundColor(Color.parseColor("#f5b776"))
             }
+        }
+
+        fun hitung(belanjaan: Belanjaan): Int {
+            val hasil = belanjaan.price * belanjaan.quantity
+
+            return hasil
         }
     }
 
@@ -42,10 +52,14 @@ class  BelanjaanAdapter(val listBelanjaan: List<Belanjaan>): RecyclerView.Adapte
         holder.itemView.satuanProduk.setText(listBelanjaan[position].typeQuantity)
         holder.itemView.hargaSatuanProduk.setText(listBelanjaan[position].price.toString())
 
-        val totalPembayaran = listBelanjaan[position].price * listBelanjaan[position].quantity
+        val totalPembayaran = holder.hitung(listBelanjaan[position])
 
         holder.itemView.totalBiaya.text = totalPembayaran.toString()
         holder.itemView.satuanProdukView.text = "/ ${listBelanjaan[position].typeQuantity}"
+
+        holder.cbCheck(listBelanjaan[position])
+
+        Log.d("checkbox", "${listBelanjaan[position].isChecked.toString()}")
 
         DatabaseBelanjaan.getInstance(holder.itemView.context)?.let {
             db = it
@@ -65,16 +79,119 @@ class  BelanjaanAdapter(val listBelanjaan: List<Belanjaan>): RecyclerView.Adapte
             }
         }
 
-        holder.cbCheck()
-//        val cb = holder.itemView.chekcboxBTN
+//        holder.cbCheck()
+        val cb = holder.itemView.chekcboxBTN
 
-//        cb.setOnClickListener{
-//            if (cb.isChecked){
-//                holder.itemView.
-//            }
-//        }
+        cb.setOnClickListener{
+            if (cb.isChecked){
+                listBelanjaan[position].apply {
+                    isChecked = true
+                }
+            } else {
+                listBelanjaan[position].apply {
+                    isChecked = false
+                }
+            }
+
+            GlobalScope.launch {
+                val rowUpdated = db.belanjaanDao().update(listBelanjaan[position])
+
+                (holder.itemView.context as MainActivity).fetchData()
+            }
+        }
+
+        holder.itemView.namaProduk.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                GlobalScope.launch {
+                    val rowUpdated = db.belanjaanDao().update(listBelanjaan[position])
+
+                    Log.d("Text Change", "$p0")
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                listBelanjaan[position].apply {
+                    name = holder.itemView.namaProduk.text.toString()
+                }
+            }
+        })
+
+        holder.itemView.satuanProduk.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                GlobalScope.launch {
+                    val rowUpdated = db.belanjaanDao().update(listBelanjaan[position])
+
+                    Log.d("Text Change", "$p0")
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                listBelanjaan[position].apply {
+                    typeQuantity = holder.itemView.satuanProduk.text.toString()
+                }
+            }
+        })
+
+        holder.itemView.jumlahProduk.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                GlobalScope.launch {
+                    val rowUpdated = db.belanjaanDao().update(listBelanjaan[position])
+
+                    Log.d("Text Change", "$p0")
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var textJumlah = holder.itemView.jumlahProduk.text.toString()
+
+                if (textJumlah == ""){
+                    textJumlah = "0"
+                }
+
+                listBelanjaan[position].apply {
+                    quantity = textJumlah.toInt()
+                }
+            }
+        })
+
+        holder.itemView.hargaSatuanProduk.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                GlobalScope.launch {
+                    val rowUpdated = db.belanjaanDao().update(listBelanjaan[position])
+
+                    Log.d("Text Change", "$p0")
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var textJumlah = holder.itemView.hargaSatuanProduk.text.toString()
+
+                if (textJumlah == ""){
+                    textJumlah = "0"
+                }
+
+                listBelanjaan[position].apply {
+                    price = textJumlah.toInt()
+                }
+            }
+        })
 
     }
-
 
 }
