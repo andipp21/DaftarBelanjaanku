@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="8dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="8dp"
+    app:cardCornerRadius="8dp"
+    android:id="@+id/cardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/underline"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/namaProduk"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="text"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <EditText
+            android:id="@+id/jumlahProduk"
+            app:layout_constraintTop_toBottomOf="@id/namaProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <EditText
+            android:id="@+id/satuanProduk"
+            app:layout_constraintTop_toBottomOf="@id/jumlahProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="text"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <TextView
+            android:id="@+id/satuanProdukView"
+            app:layout_constraintTop_toBottomOf="@id/satuanProduk"
+            app:layout_constraintBottom_toBottomOf="@id/hargaSatuanProduk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/hargaSatuanProduk"
+            android:text="/Ikat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/hargaSatuanProduk"
+            app:layout_constraintTop_toBottomOf="@id/satuanProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/satuanProdukView"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <TextView
+            android:id="@+id/totalHarga"
+            android:text="Total Harga : Rp. "
+            app:layout_constraintTop_toBottomOf="@id/hargaSatuanProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/totalBiaya"
+            android:text="20000"
+            app:layout_constraintTop_toBottomOf="@id/hargaSatuanProduk"
+            app:layout_constraintStart_toEndOf="@id/totalHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:id="@+id/chekcboxBTN"
+            app:layout_constraintTop_toBottomOf="@id/totalHarga"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Sudah Dibeli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/deleteBTN"
+            app:layout_constraintTop_toBottomOf="@id/chekcboxBTN"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
